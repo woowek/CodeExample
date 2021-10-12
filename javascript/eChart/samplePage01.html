@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- Include the ECharts file you just downloaded -->
+    <script src="echarts5.2.1\dist\echarts.min.js"></script>
+    <script src="jQuery\jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+    
+    $(document).ready(function () {
+        makeTop10Malware("top10Malware");
+        makeMalwareStatus("malwareStatus");
+        makeDiskStorageInfo("diskStorageInfo");
+        makeCPUMemoryInfo("CPUMemoryInfo");
+        makeRealtimeCureChart("realtimeCureChart");
+    });
+
+    window.onresize = function()
+    {
+        var charts = $(".chart");
+        for(var i = 0 ; i < charts.length; i++){
+            var chart = echarts.init(charts[i]);
+            chart.resize();
+        }
+    }
+
+    function makeTop10Malware(objId) {
+        var myChart = echarts.init(document.getElementById(objId));
+        var option = {
+            title: {
+                text: 'Top 10 악성코드'
+            },
+            tooltip: {
+                trigger: 'axis',
+            },
+            legend: {},
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['World', 'China', 'India', 'USA', 'Brazil', 'Indonesia']
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            series: [
+                {
+                    type: 'bar',
+                    data: [681807, 134141, 121594, 31000, 23438, 19325]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+    function makeMalwareStatus(objId) {
+            var myChart = echarts.init(document.getElementById(objId));
+            var option = {
+                title: {
+                    text: '악성코드 감염 현황',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b} : {c} ({d}%)'
+                },
+                legend: {
+                    bottom: 10,
+                    left: 'center',
+                    data: ['CityA', 'CityB', 'CityD', 'CityC', 'CityE']
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'pie',
+                        radius: '65%',
+                        center: ['50%', '50%'],
+                        selectedMode: 'single',
+                        data: [
+                            { value: 1548, name: 'CityE' },
+                            { value: 735, name: 'CityC' },
+                            { value: 510, name: 'CityD' },
+                            { value: 434, name: 'CityB' },
+                            { value: 335, name: 'CityA' }
+                        ].sort(function (a, b) {
+                            return b.value - a.value;
+                        }),
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        }
+    function makeRealtimeCureChart(objId) {
+        var myChart = echarts.init(document.getElementById(objId));
+        var option = {
+            title: {
+                text: '실시간 치료 현황'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [150, 230, 224, 218, 135, 147, 260],
+                    type: 'line'
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+    function makeDiskStorageInfo(objId) {
+        var myChart = echarts.init(document.getElementById(objId));
+        const gaugeData = [
+            {
+                value: 34,
+                name: 'CentOS-root',
+                title: {
+                    offsetCenter: ['0%', '-35%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '-20%']
+                }
+            },
+            {
+                value: 29,
+                name: 'sda1',
+                title: {
+                    offsetCenter: ['0%', '-5%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '10%']
+                }
+            },
+            {
+                value: 17,
+                name: 'CentOS-home',
+                title: {
+                    offsetCenter: ['0%', '25%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '40%']
+                }
+            }
+        ];
+        var option = {
+            title: {
+                text: ' File System 용량',
+                fontSize: 12
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b} : {c}%'
+            },
+            series: [
+                {
+                    type: 'gauge',
+                    startAngle: 90,
+                    endAngle: -270,
+                    pointer: {
+                        show: false
+                    },
+                    progress: {
+                        show: true,
+                        overlap: false,
+                        roundCap: true,
+                        clip: false,
+                        // itemStyle: {
+                        //     borderWidth: 1,
+                        //     borderColor: '#464646'
+                        // }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            width: 40
+                        }
+                    },
+                    splitLine: {
+                        show: false,
+                        distance: 0,
+                        length: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false,
+                        distance: 50
+                    },
+                    data: gaugeData,
+                    title: {
+                        fontSize: 12
+                    },
+                    detail: {
+                        width: 30,
+                        height: 9,
+                        fontSize: 10,
+                        color: 'auto',
+                        borderColor: 'auto',
+                        borderRadius: 20,
+                        borderWidth: 0,
+                        formatter: '{value}%'
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+    function makeCPUMemoryInfo(objId){
+        var myChart = echarts.init(document.getElementById(objId));
+        const gaugeData = [
+            {
+                value: 10,
+                name: 'CPU',
+                title: {
+                    offsetCenter: ['0%', '-25%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '-10%']
+                }
+            },
+            {
+                value: 60,
+                name: 'Memory',
+                title: {
+                    offsetCenter: ['0%', '5%']
+                },
+                detail: {
+                    valueAnimation: true,
+                    offsetCenter: ['0%', '20%']
+                }
+            }
+        ];
+        var option = {
+            title: {
+                text: 'CPU/Memory 관련 그래프',
+                fontSize: 12
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b} : {c}%'
+            },
+            series: [
+                {
+                    type: 'gauge',
+                    startAngle: 90,
+                    endAngle: -270,
+                    pointer: {
+                        show: false
+                    },
+                    progress: {
+                        show: true,
+                        overlap: false,
+                        roundCap: true,
+                        clip: false,
+                        // itemStyle: {
+                        //     borderWidth: 1,
+                        //     borderColor: '#464646'
+                        // }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            width: 40
+                        }
+                    },
+                    splitLine: {
+                        show: false,
+                        distance: 0,
+                        length: 10
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    axisLabel: {
+                        show: false,
+                        distance: 50
+                    },
+                    data: gaugeData,
+                    title: {
+                        fontSize: 12
+                    },
+                    detail: {
+                        width: 30,
+                        height: 9,
+                        fontSize: 10,
+                        color: 'auto',
+                        borderColor: 'auto',
+                        borderRadius: 20,
+                        borderWidth: 0,
+                        formatter: '{value}%'
+                    }
+                }
+            ]
+        };
+        myChart.setOption(option);
+    }
+    </script>
+  </head>
+  <body>
+    <div>
+        <div id="top10Malware" style="width: 600px;height:400px;display: inline-block;margin:10px;"></div>
+        <div id="malwareStatus" style="width: 600px;height:400px;display: inline-block;margin:10px;"></div>
+    </div>
+    <div>
+        <div id="systemInfo" style="width: 600px;height:400px;display: inline-block;margin:10px;">
+            <div id="diskStorageInfo" style="width:calc(100% / 2 - 10px);height:100%;display: inline-block;border:0;"></div>
+            <div id="CPUMemoryInfo" style="width:calc(100% / 2 - 10px);height:100%;display: inline-block;border:0;"></div>
+        </div>
+        <div id="realtimeCureChart" style="width: 600px;height:400px;display: inline-block;margin:10px;"></div>
+    </div>
+  </body>
+</html>
